@@ -3,34 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Do App</title>
+    <title>TaskMaster | To-Do App</title>
     <link rel="stylesheet" href="ToDo.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.1.0/uicons-solid-rounded/css/uicons-solid-rounded.css">
 </head>
-<body> 
-    <div class="container">
-        <div class="flex flex-col p-4 bg-card rounded-lg shadow-md">
-            <h1 class="text-2xl font-bold mb-4">To-Do List Web App</h1>
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-muted-foreground">Title</label>
-                <input type="text" id="taskTitle" class="mt-1 block w-full p-2 border border-border rounded-md" placeholder="Title">
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-content">
+                <i class="fi fi-sr-clipboard-list header-icon"></i>
+                <h1>TaskMaster</h1>
             </div>
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-muted-foreground">Description</label>
-                <textarea id="taskDescription" class="mt-1 block w-full p-2 border border-border rounded-md" placeholder="Please fill out this field"></textarea>
+            <p class="header-subtitle">Organize your work and life</p>
+        </header>
+
+        <div class="main-container">
+            <div class="task-form-container">
+                <div class="task-form">
+                    <h2 class="form-title">Add New Task</h2>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fi fi-rr-heading"></i> Title
+                        </label>
+                        <input type="text" id="taskTitle" class="form-input" placeholder="What needs to be done?">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fi fi-rr-align-left"></i> Description
+                        </label>
+                        <textarea id="taskDescription" class="form-input form-textarea" placeholder="Add details about the task"></textarea>
+                    </div>
+                    <button onclick="addTask()" class="submit-btn">
+                        <i class="fi fi-rr-plus"></i> Add Task
+                    </button>
+                </div>
             </div>
-            <button onclick="addTask()" class="bg-primary text-primary-foreground hover:bg-primary/80 p-2 rounded-md">Save</button>
+
+            <div class="task-list-container">
+                <div class="task-list-header">
+                    <h2 class="task-list-title">
+                        <i class="fi fi-rr-list-check"></i> Your Tasks
+                    </h2>
+                    <div class="task-count" id="taskCount">0 tasks</div>
+                </div>
+                
+                <div class="task-list" id="taskList">
+                    <!-- Tasks will be rendered here -->
+                </div>
+            </div>
         </div>
 
-        <div class="mt-6">
-            <h2 class="text-xl font-bold">Tasks</h2>
-            <div class="border-t border-border mt-2" id="taskList"></div>
-        </div>
+        <footer class="app-footer">
+            <p>© 2024 TaskMaster | Designed by Mihlali Mabovula</p>
+        </footer>
     </div>
-
-    <footer>
-        <p>Copyright &copy; 2024.</p>
-        <p>Designed by Mihlali Mabovula | Powered by Oasis Infobyte</p>
-    </footer>
 
     <script src="ToDo.js"></script>
 </body>
