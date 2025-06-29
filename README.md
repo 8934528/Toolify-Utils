@@ -21,8 +21,5 @@
 - **Mobile-First**: Fully responsive  
 
 ## 🚀 How to Run  
-1. Clone the repo:  
-   ```bash
-   git clone https://github.com/8934528/Toolify-Utils.git
 
   
