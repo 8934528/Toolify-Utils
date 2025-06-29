@@ -1,0 +1,54 @@
+:root {
+    --primary: #2a9d8f;  /* Teal */
+    --secondary: #e76f51; /* Coral */
+    --accent: #e9c46a;   /* Mustard */
+    --dark: #264653;     /* Dark Slate */
+    --light: #f8f9fa;    /* Light Gray */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--light);
+}
+
+.main-container {
+    background-color: var(--light);
+    padding: 20px;
+}
+
+.brand {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.tool-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    background: white;
+}
+
+.tool-card:hover {
+    transform: translateY(-10px);
+}
+
+.icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--primary);
+}
+
+.btn-toolify {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.btn-toolify:hover {
+    background-color: var(--secondary);
+    transform: scale(1.05);
+}
