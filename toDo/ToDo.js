@@ -12,7 +12,7 @@ function addTask() {
         completed: false,
         addedAt: new Date().toLocaleString(),
     };
-
+ 
     tasks.push(task);
     renderTasks();
     document.getElementById('taskTitle').value = '';
