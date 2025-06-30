@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator | Toolify-Utils</title>
+    <title>Calculator | Toolify</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="calc.css">
 </head>
-
 <body>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg mb-5">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
                 <i class="fi fi-rr-apps icon-brand me-2"></i>
@@ -36,69 +36,82 @@
                         <a class="nav-link" href="../tempConv/temp.html"><i class="fi fi-rr-temperature-high me-1"></i> Converter</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../toDo/toDo.html"><i class="fi fi-rr-tasks me-1"></i> To-Do</a>
+                        <a class="nav-link" href="../toDo/toDo.html"><i class="fas fa-list-check me-1"></i> To-Do</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container-fluid calculator-container">
-        <div class="row justify-content-center align-items-center min-vh-100">
-            <div class="col-md-4">
-                <div class="calculator animate__animated animate__fadeInUp">
-                    <div class="calculator-header">
-                        <i class="fi fi-rr-calculator"></i>
-                        <h2>Toolify Calculator</h2>
-                    </div>
-                    <div class="display" id="display">0</div>
-                    <div class="buttons">
-                        <button class="btn btn-clear" onclick="clearDisplay()">
-                            <i class="fi fi-rr-undo"></i> C
-                        </button>
-                        <button class="btn" onclick="appendNumber('7')">7</button>
-                        <button class="btn" onclick="appendNumber('8')">8</button>
-                        <button class="btn" onclick="appendNumber('9')">9</button>
-                        <button class="btn btn-operator" onclick="setOperator('/')">
-                            <i class="fi fi-rr-divide"></i>
-                        </button>
+    <div class="calculator-app mt-5">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="calculator-wrapper">
+                        <!-- History Panel (Left) -->
+                        <div class="history-panel">
+                            <div class="history-header">
+                                <h3><i class="fi fi-rr-time-past"></i> History</h3>
+                                <button class="btn-clear-history" onclick="clearHistory()">
+                                    <i class="fi fi-rr-trash"></i>
+                                </button>
+                            </div>
+                            <div class="history-items" id="historyItems"></div>
+                        </div>
                         
-                        <button class="btn" onclick="appendNumber('4')">4</button>
-                        <button class="btn" onclick="appendNumber('5')">5</button>
-                        <button class="btn" onclick="appendNumber('6')">6</button>
-                        <button class="btn btn-operator" onclick="setOperator('*')">
-                            <i class="fi fi-rr-multiply"></i>
-                        </button>
-                        
-                        <button class="btn" onclick="appendNumber('1')">1</button>
-                        <button class="btn" onclick="appendNumber('2')">2</button>
-                        <button class="btn" onclick="appendNumber('3')">3</button>
-                        <button class="btn btn-operator" onclick="setOperator('-')">
-                            <i class="fi fi-rr-minus"></i>
-                        </button>
-                        
-                        <button class="btn" onclick="appendNumber('0')">0</button>
-                        <button class="btn" onclick="appendNumber('.')">
-                            <i class="fi fi-rr-decimal"></i>
-                        </button>
-                        <button class="btn btn-equal" onclick="calculateResult()">
-                            <i class="fi fi-rr-equals"></i>
-                        </button>
-                        <button class="btn btn-operator" onclick="setOperator('+')">
-                            <i class="fi fi-rr-plus"></i>
-                        </button>
+                        <!-- Calculator (Right) -->
+                        <div class="calculator animate__animated animate__fadeInUp">
+                            <div class="calculator-header">
+                                <h2>Toolify</h2>
+                            </div>
+                            <div class="display" id="display">0</div>
+                            <div class="buttons">
+                                <!-- Row 1 -->
+                                <button class="btn" onclick="appendNumber('9')">9</button>
+                                <button class="btn" onclick="appendNumber('0')">0</button>
+                                <button class="btn btn-clear" onclick="clearDisplay()">C</button>
+                                <button class="btn btn-clear" onclick="backspace()">
+                                    <i class="fa fa-delete-left"></i>
+                                </button>
+                                
+                                <!-- Row 2 -->
+                                <button class="btn" onclick="appendNumber('7')">7</button>
+                                <button class="btn" onclick="appendNumber('8')">8</button>
+                                <button class="btn" onclick="appendNumber('9')">9</button>
+                                <button class="btn btn-operator" onclick="setOperator('/')">/</button>
+                                
+                                <!-- Row 3 -->
+                                <button class="btn" onclick="appendNumber('4')">4</button>
+                                <button class="btn" onclick="appendNumber('5')">5</button>
+                                <button class="btn" onclick="appendNumber('6')">6</button>
+                                <button class="btn btn-operator" onclick="setOperator('*')">×</button>
+                                
+                                <!-- Row 4 -->
+                                <button class="btn" onclick="appendNumber('1')">1</button>
+                                <button class="btn" onclick="appendNumber('2')">2</button>
+                                <button class="btn" onclick="appendNumber('3')">3</button>
+                                <button class="btn btn-operator" onclick="setOperator('+')">+</button>
+                                
+                                <!-- Row 5 -->
+                                <button class="btn btn-operator" onclick="setOperator('%')">%</button>
+                                <button class="btn" onclick="appendNumber('0')">0</button>
+                                <button class="btn" onclick="appendNumber('.')">.</button>
+                                <button class="btn btn-operator" onclick="setOperator('-')">-</button>
+                                
+                                <!-- Row 6 (Equal button) -->
+                                <button class="btn btn-equal" onclick="calculateResult()">=</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
-    <footer class="footer animate__animated animate__fadeIn animate__delay-1s">
-        <div class="container">
-            <p>Copyright &copy; 2024 Toolify-Utils</p>
-            <p>Designed by Mihlali Mabovula </p>
-        </div>
-    </footer>
+
+    <!-- Mobile History Toggle -->
+    <button class="mobile-history-toggle" onclick="toggleHistory()">
+        <i class="fi fi-rr-history"></i>
+    </button>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="calc.js"></script>
