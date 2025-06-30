@@ -14,17 +14,22 @@
 - **To-Do List** - Add, delete, and manage tasks  
 
 ## ⚙ Tech Stack  
-- **Frontend**:
+- **Frontend**: 
   ![HTML5](https://img.shields.io/badge/-HTML5-E34F26?logo=html5&logoColor=white)
   ![CSS3](https://img.shields.io/badge/-CSS3-1572B6?logo=css3&logoColor=white)
   ![JavaScript](https://img.shields.io/badge/-JavaScript-F7DF1E?logo=javascript&logoColor=black)
+- **Styling**: 
   ![Bootstrap](https://img.shields.io/badge/-Bootstrap-7952B3?logo=bootstrap&logoColor=white)
-- **Styling**: Bootstrap 5 + Custom CSS  
-- **Icons**: Fontisto (FlatIcon alternative)  
-- **Animations**: Animate.css  
+  +  
+  ![Custom CSS](https://img.shields.io/badge/-CSS3-1572B6?logo=css3&logoColor=white) 
+- **Icons**: 
+![Fontisto](https://img.shields.io/badge/-Fontisto-1A1B27?logo=fontisto&logoColor=white)
+- **Animations**: 
+![Animate](https://img.shields.io/badge/-Fontisto-1A1B27?logo=fontisto&logoColor=white)
 
 ## 🎨 Unique Design Choices  
-- **Color Scheme** - Teal, Coral, Mustard  
+- **Color Scheme** - 
+![Teal](https://img.shields.io/badge/-Teal-008080?logoColor=white) ![Coral](https://img.shields.io/badge/-Coral-FF7F50?logoColor=white) ![Mustard](https://img.shields.io/badge/-Mustard-FFDB58?logoColor=black)
 - **Smooth Transitions** - Hover effects & entrance animations  
 - **Mobile-First** - Fully responsive design  
 
