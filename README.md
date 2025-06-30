@@ -29,4 +29,4 @@
 - **Smooth Transitions** - Hover effects & entrance animations  
 - **Mobile-First** - Fully responsive design  
 
---
+---
