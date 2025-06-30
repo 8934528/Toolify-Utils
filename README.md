@@ -19,7 +19,7 @@
   ![CSS3](https://img.shields.io/badge/-CSS3-1572B6?logo=css3&logoColor=white)
   ![JavaScript](https://img.shields.io/badge/-JavaScript-F7DF1E?logo=javascript&logoColor=black)
 - **Styling**: 
-  ![Bootstrap](https://img.shields.io/badge/-Bootstrap-7952B3?logo=bootstrap&logoColor=white) + ![Custom CSS](https://img.shields.io/badge/-CSS3-1572B6?logo=css3&logoColor=white) 
+  ![Bootstrap](https://img.shields.io/badge/-Bootstrap-7952B3?logo=bootstrap&logoColor=white) ![Custom CSS](https://img.shields.io/badge/-CSS3-1572B6?logo=css3&logoColor=white) 
 - **Icons**: Fontisto (FlatIcon alternative)  
 - **Animations**: Animate.css  
 
