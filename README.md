@@ -1,6 +1,8 @@
 # 🛠️ Toolify-Utils  
 **Your All-in-One Web Utility App**  
----
+
+https://assets/demo.gif  
+
 ## 🌟 Why I Built This  
 - **Problem Solver** - Combined multiple single-purpose tools into one  
 - **Minimalist Design** - No bloated interfaces, only essential features  
