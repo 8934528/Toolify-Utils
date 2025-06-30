@@ -19,7 +19,4 @@
 - **Color Scheme**: Teal, Coral, Mustard (No overused blues/purples)  
 - **Smooth Transitions**: Hover effects & entrance animations  
 - **Mobile-First**: Fully responsive  
-
-## 🚀 How to Run  
-
-  
+---
