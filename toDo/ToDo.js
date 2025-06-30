@@ -1,3 +1,55 @@
+// ================= SESSION VALIDATION =================
+function validateSession() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get('session');
+    const storedSession = sessionStorage.getItem('currentSession');
+
+    // If no session in URL or storage, redirect to home
+    if (!sessionId || !storedSession) {
+        window.location.href = '/';
+        return false;
+    }
+
+    // Parse stored session
+    const { id, expiry } = JSON.parse(storedSession);
+
+    // Check if session matches and isn't expired
+    if (sessionId !== id || new Date().getTime() > expiry) {
+        sessionStorage.removeItem('currentSession');
+        window.location.href = '/';
+        return false;
+    }
+
+    return true;
+}
+
+function modifyInternalLinks() {
+    document.querySelectorAll('a').forEach(link => {
+        const href = link.getAttribute('href');
+
+        if (!href ||
+            href.startsWith('http') ||
+            href.startsWith('mailto') ||
+            href.startsWith('tel') ||
+            href.startsWith('#') ||
+            href.includes('session=')) {
+            return;
+        }
+
+        const storedSession = sessionStorage.getItem('currentSession');
+        if (!storedSession) return;
+
+        const { id } = JSON.parse(storedSession);
+
+        if (href.includes('?')) {
+            link.setAttribute('href', href + '&session=' + id);
+        } else {
+            link.setAttribute('href', href + '?session=' + id);
+        }
+    });
+}
+// ================= END SESSION VALIDATION =================
+
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
 function addTask() {
