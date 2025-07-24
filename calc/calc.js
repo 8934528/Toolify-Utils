@@ -1,60 +1,49 @@
-// ================= SESSION VALIDATION =================
-function validateSession() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const sessionId = urlParams.get('session');
-    const storedSession = sessionStorage.getItem('currentSession');
+// Toast and Modal Elements
+const liveToast = new bootstrap.Toast(document.getElementById('liveToast'));
+const confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
 
-    // If no session in URL or storage, redirect to home
-    if (!sessionId || !storedSession) {
-        window.location.href = '/';
-        return false;
+// Show toast notification
+function showToast(title, message, type = 'info') {
+    const toastTitle = document.getElementById('toast-title');
+    const toastMessage = document.getElementById('toast-message');
+    
+    toastTitle.textContent = title;
+    toastMessage.textContent = message;
+    
+    // Set toast color based on type
+    const toastHeader = document.querySelector('.toast-header');
+    switch(type) {
+        case 'success':
+            toastHeader.style.backgroundColor = 'var(--success)';
+            break;
+        case 'warning':
+            toastHeader.style.backgroundColor = 'var(--warning)';
+            break;
+        case 'error':
+            toastHeader.style.backgroundColor = 'var(--danger)';
+            break;
+        default:
+            toastHeader.style.backgroundColor = 'var(--primary)';
     }
-
-    // Parse stored session
-    const { id, expiry } = JSON.parse(storedSession);
-
-    // Check if session matches and isn't expired
-    if (sessionId !== id || new Date().getTime() > expiry) {
-        sessionStorage.removeItem('currentSession');
-        window.location.href = '/';
-        return false;
-    }
-
-    return true;
+    
+    liveToast.show();
 }
 
-function modifyInternalLinks() {
-    document.querySelectorAll('a').forEach(link => {
-        const href = link.getAttribute('href');
-
-        if (!href ||
-            href.startsWith('http') ||
-            href.startsWith('mailto') ||
-            href.startsWith('tel') ||
-            href.startsWith('#') ||
-            href.includes('session=')) {
-            return;
-        }
-
-        const storedSession = sessionStorage.getItem('currentSession');
-        if (!storedSession) return;
-
-        const { id } = JSON.parse(storedSession);
-
-        if (href.includes('?')) {
-            link.setAttribute('href', href + '&session=' + id);
-        } else {
-            link.setAttribute('href', href + '?session=' + id);
-        }
-    });
-}
-// ================= END SESSION VALIDATION =================
-
-// Validate session on page load
-if (!validateSession()) {
-    // Redirect will happen automatically
-} else {
-    modifyInternalLinks();
+// Confirm action with modal
+function confirmAction(title, message, actionCallback) {
+    const modalTitle = document.getElementById('confirmModalTitle');
+    const modalBody = document.getElementById('confirmModalBody');
+    const modalAction = document.getElementById('confirmModalAction');
+    
+    modalTitle.textContent = title;
+    modalBody.textContent = message;
+    
+    modalAction.onclick = function() {
+        actionCallback();
+        confirmModal.hide();
+    };
+    
+    confirmModal.show();
 }
 
 // Calculator state
@@ -72,6 +61,7 @@ const historyItems = document.getElementById('historyItems');
 function initCalculator() {
     loadHistory();
     updateDisplay();
+    showToast('Welcome', 'Calculator is ready to use!', 'success');
 }
 
 // Append to display
@@ -81,7 +71,10 @@ function appendToDisplay(number) {
         resetInput = false;
     }
     
-    if (number === '.' && currentInput.includes('.')) return;
+    if (number === '.' && currentInput.includes('.')) {
+        showToast('Invalid Input', 'Decimal point already exists', 'warning');
+        return;
+    }
     
     currentInput += number;
     updateDisplay();
@@ -89,7 +82,10 @@ function appendToDisplay(number) {
 
 // Set operation
 function setOperation(op) {
-    if (currentInput === '') return;
+    if (currentInput === '') {
+        showToast('Invalid Operation', 'Please enter a number first', 'warning');
+        return;
+    }
     
     if (operation !== null) calculate();
     
@@ -105,7 +101,15 @@ function calculate() {
     const prev = parseFloat(previousInput);
     const current = parseFloat(currentInput);
     
-    if (isNaN(prev) || isNaN(current)) return;
+    if (isNaN(prev)) {
+        showToast('Calculation Error', 'First number is invalid', 'error');
+        return;
+    }
+    
+    if (isNaN(current)) {
+        showToast('Calculation Error', 'Second number is invalid', 'error');
+        return;
+    }
     
     switch (operation) {
         case '+':
@@ -118,6 +122,15 @@ function calculate() {
             computation = prev * current;
             break;
         case '/':
+            if (current === 0) {
+                showToast('Math Error', 'Cannot divide by zero', 'error');
+                currentInput = 'Error';
+                updateDisplay();
+                setTimeout(() => {
+                    clearDisplay();
+                }, 1000);
+                return;
+            }
             computation = prev / current;
             break;
         default:
@@ -135,7 +148,10 @@ function calculate() {
 
 // Calculate percentage
 function calculatePercentage() {
-    if (currentInput === '') return;
+    if (currentInput === '') {
+        showToast('Invalid Operation', 'Please enter a number first', 'warning');
+        return;
+    }
     
     const value = parseFloat(currentInput) / 100;
     currentInput = value.toString();
@@ -192,10 +208,19 @@ function renderHistory() {
     `).join('');
 }
 
+function confirmClearHistory() {
+    confirmAction(
+        'Clear History',
+        'Are you sure you want to clear all calculation history? This action cannot be undone.',
+        clearHistory
+    );
+}
+
 function clearHistory() {
     operationHistory = [];
     saveHistory();
     renderHistory();
+    showToast('History Cleared', 'All calculation history has been removed', 'success');
 }
 
 function saveHistory() {
