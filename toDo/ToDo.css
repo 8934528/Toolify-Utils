@@ -79,14 +79,14 @@ body {
     color: var(--primary);
 }
 
-
 .app-container {
-    max-width: 800px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 2rem;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    margin-top: 3rem !important;
 }
 
 .app-header {
@@ -120,10 +120,8 @@ body {
 }
 
 .main-container {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
     flex: 1;
+    margin-bottom: 2rem;
 }
 
 .task-form-container {
@@ -131,6 +129,7 @@ body {
     border-radius: 12px;
     padding: 1.5rem;
     box-shadow: var(--shadow);
+    height: 100%;
 }
 
 .form-title {
@@ -171,7 +170,7 @@ body {
 }
 
 .form-textarea {
-    min-height: 100px;
+    min-height: 150px;
     resize: vertical;
 }
 
@@ -202,7 +201,7 @@ body {
     border-radius: 12px;
     padding: 1.5rem;
     box-shadow: var(--shadow);
-    flex: 1;
+    height: 100%;
 }
 
 .task-list-header {
@@ -233,6 +232,9 @@ body {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    max-height: calc(100vh - 350px);
+    overflow-y: auto;
+    padding-right: 8px;
 }
 
 .task-item {
@@ -342,21 +344,36 @@ body {
 
 .app-footer {
     text-align: center;
-    margin-top: 2rem;
+    margin-top: auto;
     padding-top: 1rem;
     border-top: 1px solid var(--border-color);
     color: var(--text-light);
     font-size: 0.9rem;
 }
 
-.powered-by {
-    font-size: 0.8rem;
-    margin-top: 0.5rem;
+/* Scrollbar styling */
+.task-list::-webkit-scrollbar {
+    width: 8px;
 }
 
-@media (max-width: 768px) {
+.task-list::-webkit-scrollbar-track {
+    background: var(--background-color);
+    border-radius: 4px;
+}
+
+.task-list::-webkit-scrollbar-thumb {
+    background-color: var(--primary-light);
+    border-radius: 4px;
+}
+
+.task-list::-webkit-scrollbar-thumb:hover {
+    background-color: var(--primary-color);
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
     .app-container {
-        padding: 1rem;
+        padding: 1.5rem;
     }
     
     .app-header h1 {
@@ -365,5 +382,45 @@ body {
     
     .header-icon {
         font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-container .row {
+        flex-direction: column;
+    }
+    
+    .col-lg-6, .col-md-6 {
+        width: 100%;
+    }
+    
+    .task-list {
+        max-height: 400px;
+    }
+    
+    .form-textarea {
+        min-height: 100px;
+    }
+}
+
+@media (max-width: 576px) {
+    .app-container {
+        padding: 1rem;
+    }
+    
+    .app-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .header-icon {
+        font-size: 1.8rem;
+    }
+    
+    .form-title, .task-list-title {
+        font-size: 1.3rem;
+    }
+    
+    .task-item {
+        padding: 1rem;
     }
 }
