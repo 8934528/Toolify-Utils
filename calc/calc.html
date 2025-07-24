@@ -10,14 +10,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="calc.css">
 </head>
-<body>
+<body class="d-flex flex-column vh-100">
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg mb-5">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <i class="fi fi-rr-apps icon-brand me-2"></i>
-                <span class="brand">Toolify-Utils</span>
+                <i class="fi fi-rr-apps me-2"></i>
+                <span>Toolify-Utils</span>
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -27,10 +27,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="../index.html"><i class="fi fi-rr-home me-1"></i> Home</a>
+                        <a class="nav-link" href="../index.html"><i class="fi fi-rr-home me-1"></i> Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../calc/calc.html"><i class="fi fi-rr-calculator me-1"></i> Calculator</a>
+                        <a class="nav-link active" href="../calc/calc.html"><i class="fi fi-rr-calculator me-1"></i> Calculator</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../tempConv/temp.html"><i class="fi fi-rr-temperature-high me-1"></i> Converter</a>
@@ -43,60 +43,58 @@
         </div>
     </nav>
 
-    <div class="calculator-app mt-5">
-        <div class="container-fluid">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="calculator-wrapper">
-                        <!-- History Panel (Left) -->
-                        <div class="history-panel">
-                            <div class="history-header">
-                                <h3><i class="fi fi-rr-time-past"></i> History</h3>
-                                <button class="btn-clear-history" onclick="clearHistory()">
-                                    <i class="fi fi-rr-trash"></i>
-                                </button>
-                            </div>
-                            <div class="history-items" id="historyItems"></div>
+    <!-- Main Content -->
+    <div class="container-fluid flex-grow-1 d-flex flex-column">
+        <div class="row flex-grow-1">
+            <!-- History Panel -->
+            <div class="col-lg-3 col-md-4 p-0 border-end">
+                <div class="history-panel h-100 d-flex flex-column">
+                    <div class="history-header p-3 border-bottom">
+                        <h3 class="m-0"><i class="fi fi-rr-time-past me-2"></i>Calculation History</h3>
+                        <button class="btn btn-sm btn-danger" onclick="confirmClearHistory()">
+                            <i class="fi fi-rr-trash"></i>
+                        </button>
+                    </div>
+                    <div class="history-items flex-grow-1 overflow-auto" id="historyItems"></div>
+                </div>
+            </div>
+            
+            <!-- Calculator -->
+            <div class="col-lg-9 col-md-8 p-0 d-flex flex-column">
+                <div class="calculator-header p-3 border-bottom">
+                    <h2 class="m-0"><i class="fi fi-rr-calculator me-2"></i>Calculator</h2>
+                </div>
+                <div class="calculator flex-grow-1 d-flex flex-column p-3">
+                    <div class="display mb-3" id="display">0</div>
+                    <div class="buttons flex-grow-1">
+                        <div class="row g-2 mb-2">
+                            <div class="col-3"><button class="btn w-100" onclick="appendToDisplay('7')">7</button></div>
+                            <div class="col-3"><button class="btn w-100" onclick="appendToDisplay('8')">8</button></div>
+                            <div class="col-3"><button class="btn w-100" onclick="appendToDisplay('9')">9</button></div>
+                            <div class="col-3"><button class="btn btn-operator w-100" onclick="setOperation('/')">/</button></div>
                         </div>
-                        
-                        <!-- Calculator (Right) -->
-                        <div class="calculator animate__animated animate__fadeInUp">
-                            <div class="calculator-header">
-                                <h2>Toolify</h2>
-                            </div>
-                            <div class="display" id="display">0</div>
-                            <div class="buttons">
-                                <!-- Row 1 -->
-                                <button class="btn" onclick="appendToDisplay('7')">7</button>
-                                <button class="btn" onclick="appendToDisplay('8')">8</button>
-                                <button class="btn" onclick="appendToDisplay('9')">9</button>
-                                <button class="btn btn-operator" onclick="setOperation('/')">/</button>
-                                
-                                <!-- Row 2 -->
-                                <button class="btn" onclick="appendToDisplay('4')">4</button>
-                                <button class="btn" onclick="appendToDisplay('5')">5</button>
-                                <button class="btn" onclick="appendToDisplay('6')">6</button>
-                                <button class="btn btn-operator" onclick="setOperation('*')">×</button>
-                                
-                                <!-- Row 3 -->
-                                <button class="btn" onclick="appendToDisplay('1')">1</button>
-                                <button class="btn" onclick="appendToDisplay('2')">2</button>
-                                <button class="btn" onclick="appendToDisplay('3')">3</button>
-                                <button class="btn btn-operator" onclick="setOperation('-')">-</button>
-                                
-                                <!-- Row 4 -->
-                                <button class="btn" onclick="appendToDisplay('0')">0</button>
-                                <button class="btn" onclick="appendToDisplay('.')">.</button>
-                                <button class="btn btn-clear" onclick="clearDisplay()">C</button>
-                                <button class="btn btn-operator" onclick="setOperation('+')">+</button>
-                                
-                                <!-- Row 5 -->
-                                <button class="btn btn-clear" onclick="backspace()">
-                                    <i class="fa fa-delete-left"></i>
-                                </button>
-                                <button class="btn btn-operator" onclick="calculatePercentage()">%</button>
-                                <button class="btn btn-equal" onclick="calculate()">=</button>
-                            </div>
+                        <div class="row g-2 mb-2">
+                            <div class="col-3"><button class="btn w-100" onclick="appendToDisplay('4')">4</button></div>
+                            <div class="col-3"><button class="btn w-100" onclick="appendToDisplay('5')">5</button></div>
+                            <div class="col-3"><button class="btn w-100" onclick="appendToDisplay('6')">6</button></div>
+                            <div class="col-3"><button class="btn btn-operator w-100" onclick="setOperation('*')">×</button></div>
+                        </div>
+                        <div class="row g-2 mb-2">
+                            <div class="col-3"><button class="btn w-100" onclick="appendToDisplay('1')">1</button></div>
+                            <div class="col-3"><button class="btn w-100" onclick="appendToDisplay('2')">2</button></div>
+                            <div class="col-3"><button class="btn w-100" onclick="appendToDisplay('3')">3</button></div>
+                            <div class="col-3"><button class="btn btn-operator w-100" onclick="setOperation('-')">-</button></div>
+                        </div>
+                        <div class="row g-2 mb-2">
+                            <div class="col-3"><button class="btn w-100" onclick="appendToDisplay('0')">0</button></div>
+                            <div class="col-3"><button class="btn w-100" onclick="appendToDisplay('.')">.</button></div>
+                            <div class="col-3"><button class="btn btn-clear w-100" onclick="clearDisplay()">C</button></div>
+                            <div class="col-3"><button class="btn btn-operator w-100" onclick="setOperation('+')">+</button></div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col-6"><button class="btn btn-clear w-100" onclick="backspace()"><i class="fa fa-delete-left"></i> Back</button></div>
+                            <div class="col-3"><button class="btn btn-operator w-100" onclick="calculatePercentage()">%</button></div>
+                            <div class="col-3"><button class="btn btn-equal w-100" onclick="calculate()">=</button></div>
                         </div>
                     </div>
                 </div>
@@ -104,10 +102,35 @@
         </div>
     </div>
 
-    <!-- Mobile History Toggle -->
-    <button class="mobile-history-toggle" onclick="toggleHistory()">
-        <i class="fi fi-rr-history"></i>
-    </button>
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalTitle">Confirm Action</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="confirmModalBody">
+                    Are you sure you want to perform this action?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="confirmModalAction">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto" id="toast-title">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" id="toast-message"></div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="calc.js"></script>
