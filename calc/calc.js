@@ -58,37 +58,11 @@ if (!validateSession()) {
 }
 
 // Calculator state
-let currentInput = '';
-let operationHistory = [];
-let shouldResetInput = false;
-
-// DOM Elements
-const display = document.getElementById('display');
-const historyItems = document.getElementById('historyItems');
-
-// Initialize calculator
-function initCalculator() {
-    loadHistory();
-    updateDisplay();
-}
-
-// Number input
-function appendNumber(number) {
-    if (shouldResetInput) {
-        currentInput = '';
-        shouldResetInput = false;
-    }
-    
-    if (number === '.' && currentInput.includes('.')) return;
-    
-    currentInput += number;
-    updateDisplay();
-}
-
-// Calculator state
 let currentInput = '0';
+let previousInput = '';
+let operation = null;
+let resetInput = false;
 let operationHistory = [];
-let shouldResetInput = false;
 
 // DOM Elements
 const display = document.getElementById('display');
@@ -100,11 +74,11 @@ function initCalculator() {
     updateDisplay();
 }
 
-// Number input
-function appendNumber(number) {
-    if (shouldResetInput || currentInput === '0') {
+// Append to display
+function appendToDisplay(number) {
+    if (currentInput === '0' || resetInput) {
         currentInput = '';
-        shouldResetInput = false;
+        resetInput = false;
     }
     
     if (number === '.' && currentInput.includes('.')) return;
@@ -113,56 +87,66 @@ function appendNumber(number) {
     updateDisplay();
 }
 
-// Operator input
-function setOperator(operator) {
-    if (currentInput === '' && operator === '-') {
-        currentInput = '-';
-        updateDisplay();
-        return;
-    }
-    
+// Set operation
+function setOperation(op) {
     if (currentInput === '') return;
     
-    if (operator === '%') {
-        currentInput += '/100';
-        calculateResult();
-        return;
-    }
+    if (operation !== null) calculate();
     
-    currentInput += ` ${operator} `;
-    shouldResetInput = false;
+    operation = op;
+    previousInput = currentInput;
+    currentInput = '';
     updateDisplay();
 }
 
-// Calculate result
-function calculateResult() {
-    try {
-        const expression = currentInput;
-        const result = eval(expression.replace(/×/g, '*').replace(/÷/g, '/'));
-        
-        if (isNaN(result) || !isFinite(result)) {
-            throw new Error('Invalid calculation');
-        }
-        
-        addToHistory(expression, result.toString());
-        
-        currentInput = result.toString();
-        shouldResetInput = true;
-        updateDisplay();
-    } catch (error) {
-        currentInput = 'Error';
-        updateDisplay();
-        setTimeout(() => {
-            currentInput = '0';
-            updateDisplay();
-        }, 1000);
+// Calculate
+function calculate() {
+    let computation;
+    const prev = parseFloat(previousInput);
+    const current = parseFloat(currentInput);
+    
+    if (isNaN(prev) || isNaN(current)) return;
+    
+    switch (operation) {
+        case '+':
+            computation = prev + current;
+            break;
+        case '-':
+            computation = prev - current;
+            break;
+        case '*':
+            computation = prev * current;
+            break;
+        case '/':
+            computation = prev / current;
+            break;
+        default:
+            return;
     }
+    
+    addToHistory(`${previousInput} ${operation} ${currentInput}`, computation.toString());
+    
+    currentInput = computation.toString();
+    operation = null;
+    previousInput = '';
+    resetInput = true;
+    updateDisplay();
+}
+
+// Calculate percentage
+function calculatePercentage() {
+    if (currentInput === '') return;
+    
+    const value = parseFloat(currentInput) / 100;
+    currentInput = value.toString();
+    updateDisplay();
 }
 
 // Clear display
 function clearDisplay() {
     currentInput = '0';
-    shouldResetInput = false;
+    previousInput = '';
+    operation = null;
     updateDisplay();
 }
 
@@ -199,8 +183,10 @@ function addToHistory(expression, result) {
 function renderHistory() {
     historyItems.innerHTML = operationHistory.map(item => `
         <div class="history-item">
-            <div class="history-expression">${item.expression} =</div>
-            <div class="history-result">${item.result}</div>
+            <div>
+                <span class="history-expression">${item.expression} =</span>
+                <span class="history-result">${item.result}</span>
+            </div>
             <div class="history-timestamp">${item.timestamp}</div>
         </div>
     `).join('');
@@ -233,17 +219,18 @@ function toggleHistory() {
 // Keyboard support
 document.addEventListener('keydown', (e) => {
     if (/[0-9.]/.test(e.key)) {
-        appendNumber(e.key);
-    } else if (['+', '-', '*', '/', '(', ')'].includes(e.key)) {
-        setOperator(e.key);
+        appendToDisplay(e.key);
+    } else if (['+', '-', '*', '/'].includes(e.key)) {
+        setOperation(e.key);
     } else if (e.key === 'Enter' || e.key === '=') {
-        calculateResult();
+        e.preventDefault();
+        calculate();
     } else if (e.key === 'Escape') {
         clearDisplay();
     } else if (e.key === 'Backspace') {
         backspace();
     } else if (e.key === '%') {
-        setOperator('%');
+        calculatePercentage();
     }
 });
 
