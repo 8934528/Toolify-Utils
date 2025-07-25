@@ -1,9 +1,6 @@
 # 🛠️ Toolify-Utils  
 **Your All-in-One Web Utility App**  
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/YOUR_DEPLOY_ID/deploy-status)](https://app.netlify.com/sites/[YOUR_SITE_NAME](https://toolify-utils.netlify.app/)/overview)  
-[![PWA Ready](https://img.shields.io/badge/PWA-Ready-5A0FC8?logo=pwa&logoColor=white)](https://web.dev/progressive-web-apps/)  
-
 ## 🌟 Why I Built This  
 - **Problem Solver** - Combined multiple single-purpose tools into one  
 - **Minimalist Design** - No bloated interfaces, only essential features  
