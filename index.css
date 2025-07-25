@@ -106,6 +106,31 @@ body {
     font-size: 1.25rem;
 }
 
+.navbar-toggler {
+    border: none;
+    padding: 0.25rem;
+}
+
+.navbar-toggler i {
+    font-size: 1.5rem;
+    color: white;
+}
+
+.navbar-collapse {
+    background-color: var(--primary);
+    padding: 1rem;
+    margin-top: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+@media (min-width: 992px) {
+    .navbar-collapse {
+        background-color: transparent;
+        padding: 0;
+        margin-top: 0;
+    }
+}
+
 /* Tool Cards */
 .tool-card {
     background-color: rgba(255, 255, 255, 0.9);
