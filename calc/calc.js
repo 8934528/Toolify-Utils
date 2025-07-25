@@ -1,3 +1,50 @@
+// ================= SESSION VALIDATION =================
+function validateSession() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get('session');
+    const storedSession = sessionStorage.getItem('currentSession');
+
+    if (!sessionId || !storedSession) {
+        window.location.href = '/';
+        return false;
+    }
+
+    const { id, expiry } = JSON.parse(storedSession);
+
+    if (sessionId !== id || new Date().getTime() > expiry) {
+        sessionStorage.removeItem('currentSession');
+        window.location.href = '/';
+        return false;
+    }
+
+    return true;
+}
+
+function modifyInternalLinks() {
+    document.querySelectorAll('a').forEach(link => {
+        const href = link.getAttribute('href');
+        if (!href || href.startsWith('http') || href.startsWith('mailto') || 
+            href.startsWith('tel') || href.startsWith('#') || href.includes('session=')) {
+            return;
+        }
+
+        const storedSession = sessionStorage.getItem('currentSession');
+        if (!storedSession) return;
+
+        const { id } = JSON.parse(storedSession);
+        link.setAttribute('href', href.includes('?') ? `${href}&session=${id}` : `${href}?session=${id}`);
+    });
+}
+
+// Validate session on page load
+if (!validateSession()) {
+    // Redirect will happen automatically
+} else {
+    modifyInternalLinks();
+}
+// ================= END SESSION VALIDATION =================
+
+
 // Toast and Modal Elements
 const liveToast = new bootstrap.Toast(document.getElementById('liveToast'));
 const confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));

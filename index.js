@@ -93,41 +93,61 @@ function modifyInternalLinks() {
 // ================= END SESSION MANAGEMENT =================
 
 document.addEventListener('DOMContentLoaded', function () {
-
     // Initialize session
     initSession();
 
     // Modify all internal links
     modifyInternalLinks();
 
-    // Smooth scrolling for navigation links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-            
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                window.scrollTo({
-                    top: targetElement.offsetTop - 80,
-                    behavior: 'smooth'
-                });
-            }
-        });
+    // Initialize tooltips
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
     });
-    
-    // Add shadow to navbar on scroll
-    const navbar = document.querySelector('.navbar');
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
-            navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
-        } else {
-            navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-        }
+
+    // Initialize toast
+    const toastEl = document.getElementById('liveToast');
+    const toast = new bootstrap.Toast(toastEl, { autohide: true, delay: 3000 });
+
+    // Show sample toast (can be removed or used for actual notifications)
+    function showToast(title, message, type = 'info') {
+        document.getElementById('toast-title').textContent = title;
+        document.getElementById('toast-message').textContent = message;
+        toast.show();
+    }
+
+    // Sample usage (can be removed):
+    // setTimeout(() => showToast('Welcome', 'Toolify-Utils is ready to use!'), 1000);
+
+    // Update stats (simulated - replace with real data in a real application)
+    function updateStats() {
+        // Simulate changing values
+        const memory = Math.min(100, Math.max(0, 65 + Math.floor(Math.random() * 10 - 5));
+        const cpu = Math.min(100, Math.max(0, 42 + Math.floor(Math.random() * 10 - 5));
+        const storage = Math.min(100, Math.max(0, 78 + Math.floor(Math.random() * 5 - 2));
+
+        document.querySelectorAll('.stat-value')[0].textContent = memory + '%';
+        document.querySelectorAll('.progress-bar')[0].style.width = memory + '%';
+        document.querySelectorAll('.stat-value')[1].textContent = cpu + '%';
+        document.querySelectorAll('.progress-bar')[1].style.width = cpu + '%';
+        document.querySelectorAll('.stat-value')[2].textContent = storage + '%';
+        document.querySelectorAll('.progress-bar')[2].style.width = storage + '%';
+    }
+
+    // Update stats every 5 seconds (simulation)
+    setInterval(updateStats, 5000);
+
+    // Refresh button functionality
+    document.querySelector('.btn-outline-primary').addEventListener('click', function() {
+        updateStats();
+        showToast('System', 'Data refreshed successfully');
     });
-    
+
+    // Settings button functionality
+    document.querySelector('.btn-outline-secondary').addEventListener('click', function() {
+        showToast('Settings', 'Settings panel will open here');
+    });
+
     // Animation for tool cards on scroll
     const animateOnScroll = function() {
         const toolCards = document.querySelectorAll('.tool-card');
@@ -144,36 +164,4 @@ document.addEventListener('DOMContentLoaded', function () {
     
     window.addEventListener('scroll', animateOnScroll);
     animateOnScroll(); // Run once on page load
-    
-    // Enhanced hover effects for tool cards
-    document.querySelectorAll('.tool-card').forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            card.style.transform = 'translateY(-10px)';
-            card.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.15)';
-        });
-        
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = '';
-            card.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.05)';
-        });
-    });
-    
-    // Add ripple effect to buttons
-    document.querySelectorAll('.btn').forEach(button => {
-        button.addEventListener('click', function(e) {
-            const x = e.clientX - e.target.getBoundingClientRect().left;
-            const y = e.clientY - e.target.getBoundingClientRect().top;
-            
-            const ripple = document.createElement('span');
-            ripple.classList.add('ripple');
-            ripple.style.left = `${x}px`;
-            ripple.style.top = `${y}px`;
-            
-            this.appendChild(ripple);
-            
-            setTimeout(() => {
-                ripple.remove();
-            }, 1000);
-        });
-    });
 });
