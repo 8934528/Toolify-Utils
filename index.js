@@ -65,12 +65,12 @@ function modifyInternalLinks() {
     if (!storedSession) return;
 
     const { id } = JSON.parse(storedSession);
-    
+
     document.querySelectorAll('a').forEach(link => {
         const href = link.getAttribute('href');
-        
+
         // Skip if external link, mailto, tel, or already has session
-        if (!href || href.startsWith('http') || href.startsWith('mailto') || 
+        if (!href || href.startsWith('http') || href.startsWith('mailto') ||
             href.startsWith('tel') || href.startsWith('#') || href.includes('session=')) {
             return;
         }
@@ -126,30 +126,42 @@ document.addEventListener('DOMContentLoaded', function () {
     setInterval(updateStats, 5000);
 
     // Refresh button functionality
-    document.querySelector('.btn-outline-primary').addEventListener('click', function() {
+    document.querySelector('.btn-outline-primary').addEventListener('click', function () {
         updateStats();
         showToast('System', 'Data refreshed successfully');
     });
 
     // Settings button functionality
-    document.querySelector('.btn-outline-secondary').addEventListener('click', function() {
+    document.querySelector('.btn-outline-secondary').addEventListener('click', function () {
         showToast('Settings', 'Settings panel will open here');
     });
 
     // Animation for tool cards on scroll
-    const animateOnScroll = function() {
+    const animateOnScroll = function () {
         const toolCards = document.querySelectorAll('.tool-card');
-        
+
         toolCards.forEach(card => {
             const cardPosition = card.getBoundingClientRect().top;
             const screenPosition = window.innerHeight / 1.3;
-            
+
             if (cardPosition < screenPosition) {
                 card.classList.add('animate__fadeInUp');
             }
         });
     };
-    
+
     window.addEventListener('scroll', animateOnScroll);
     animateOnScroll(); // Run once on page load
+
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then((registration) => {
+                    console.log('ServiceWorker registration successful');
+                })
+                .catch((err) => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+        });
+    }
 });
