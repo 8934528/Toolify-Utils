@@ -34,8 +34,4 @@
 ## 🚀 Live Demo  
 Try it here: [[https://YOUR_NETLIFY_SITE.netlify.app](https://toolify-utils.netlify.app/)]  
 
-## 📦 Installation (Local Dev)  
-```bash
-git clone https://github.com/YOUR_USERNAME/Toolify-Utils.git  
-cd Toolify-Utils  
-# Open index.html in browser or use Live Server (VS Code)  
+--- 
