@@ -3,7 +3,7 @@ const SESSION_EXPIRY_MINUTES = 30; // Session expires after 30 minutes of inacti
 
 // Generate a random session ID
 function generateSessionId() {
-    return 'sess/' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    return 'sess-' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 }
 
 // Initialize or validate session
@@ -27,7 +27,7 @@ function initSession() {
                 expiry: newExpiry
             }));
 
-            // Redirect to include session ID
+            // Update URL with new session ID if needed
             if (!window.location.search.includes('session=')) {
                 const newUrl = window.location.pathname + '?session=' + sessionId;
                 window.history.replaceState({}, '', newUrl);
@@ -36,7 +36,7 @@ function initSession() {
             // Valid session exists
             sessionId = id;
 
-            // Ensure URL has session ID
+            // Ensure URL has session ID if it's missing
             if (!window.location.search.includes('session=')) {
                 const newUrl = window.location.pathname + '?session=' + sessionId;
                 window.history.replaceState({}, '', newUrl);
@@ -51,11 +51,9 @@ function initSession() {
             expiry: expiry
         }));
 
-        // Redirect to include session ID
-        if (!window.location.search.includes('session=')) {
-            const newUrl = window.location.pathname + '?session=' + sessionId;
-            window.history.replaceState({}, '', newUrl);
-        }
+        // Update URL with new session ID
+        const newUrl = window.location.pathname + '?session=' + sessionId;
+        window.history.replaceState({}, '', newUrl);
     }
 
     return sessionId;
@@ -63,31 +61,23 @@ function initSession() {
 
 // Modify all internal links to include session ID
 function modifyInternalLinks() {
+    const storedSession = sessionStorage.getItem('currentSession');
+    if (!storedSession) return;
+
+    const { id } = JSON.parse(storedSession);
+    
     document.querySelectorAll('a').forEach(link => {
         const href = link.getAttribute('href');
-
+        
         // Skip if external link, mailto, tel, or already has session
-        if (!href ||
-            href.startsWith('http') ||
-            href.startsWith('mailto') ||
-            href.startsWith('tel') ||
-            href.startsWith('#') ||
-            href.includes('session=')) {
+        if (!href || href.startsWith('http') || href.startsWith('mailto') || 
+            href.startsWith('tel') || href.startsWith('#') || href.includes('session=')) {
             return;
         }
 
-        // Get current session ID
-        const storedSession = sessionStorage.getItem('currentSession');
-        if (!storedSession) return;
-
-        const { id } = JSON.parse(storedSession);
-
         // Add session parameter
-        if (href.includes('?')) {
-            link.setAttribute('href', href + '&session=' + id);
-        } else {
-            link.setAttribute('href', href + '?session=' + id);
-        }
+        const separator = href.includes('?') ? '&' : '?';
+        link.setAttribute('href', `${href}${separator}session=${id}`);
     });
 }
 // ================= END SESSION MANAGEMENT =================
@@ -99,6 +89,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Modify all internal links
     modifyInternalLinks();
 
+    // Rest of your existing code...
     // Initialize tooltips
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -116,15 +107,12 @@ document.addEventListener('DOMContentLoaded', function () {
         toast.show();
     }
 
-    // Sample usage (can be removed):
-    // setTimeout(() => showToast('Welcome', 'Toolify-Utils is ready to use!'), 1000);
-
     // Update stats (simulated - replace with real data in a real application)
     function updateStats() {
         // Simulate changing values
-        const memory = Math.min(100, Math.max(0, 65 + Math.floor(Math.random() * 10 - 5));
-        const cpu = Math.min(100, Math.max(0, 42 + Math.floor(Math.random() * 10 - 5));
-        const storage = Math.min(100, Math.max(0, 78 + Math.floor(Math.random() * 5 - 2));
+        const memory = Math.min(100, Math.max(0, 65 + Math.floor(Math.random() * 10 - 5)));
+        const cpu = Math.min(100, Math.max(0, 42 + Math.floor(Math.random() * 10 - 5)));
+        const storage = Math.min(100, Math.max(0, 78 + Math.floor(Math.random() * 5 - 2)));
 
         document.querySelectorAll('.stat-value')[0].textContent = memory + '%';
         document.querySelectorAll('.progress-bar')[0].style.width = memory + '%';
